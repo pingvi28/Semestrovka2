@@ -1,10 +1,12 @@
-package ru.kpfu.itis;
+package ru.kpfu.itis.streams;
+
+import ru.kpfu.itis.protocol.Message;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static ru.kpfu.itis.Protocol.MAX_ACTION_LENGTH;
-import static ru.kpfu.itis.Protocol.SEND_ERROR;
+import static ru.kpfu.itis.protocol.Protocol.MAX_ACTION_LENGTH;
+import static ru.kpfu.itis.protocol.Protocol.SEND_ERROR;
 
 public class ProtocolInputStream {
     private InputStream inputStream;
@@ -13,7 +15,7 @@ public class ProtocolInputStream {
         this.inputStream = inputStream;
     }
 
-    public Action readAction() throws IOException {
+    public Message readAction() throws IOException {
         int type = -1;
         int length = 0;
         if ((type = inputStream.read()) == -1) {
@@ -21,14 +23,14 @@ public class ProtocolInputStream {
         }
         length = (inputStream.read() << 8) + inputStream.read();
         if (length > MAX_ACTION_LENGTH) {
-            Action incorrectAction = new Action(SEND_ERROR, new byte[0]);
+            Message incorrectMessage = new Message(SEND_ERROR, new byte[0]);
             inputStream.skip(length);
-            return incorrectAction;
+            return incorrectMessage;
         }
         byte[] buffer = new byte[length];
         inputStream.read(buffer);
-        Action action = new Action((byte) type, buffer);
-        return action;
+        Message message = new Message((byte) type, buffer);
+        return message;
     }
 
     public int read() throws IOException {

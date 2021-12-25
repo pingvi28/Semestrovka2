@@ -1,4 +1,4 @@
-package game.common;
+package ru.kpfu.itis.game.common;
 
 public class Properties {
     public static final String host = "127.0.0.1";

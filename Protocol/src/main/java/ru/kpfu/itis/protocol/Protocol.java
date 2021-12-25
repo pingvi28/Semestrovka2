@@ -1,4 +1,4 @@
-package ru.kpfu.itis;
+package ru.kpfu.itis.protocol;
 
 public class Protocol {
     public static final byte SEND_ERROR = 0;

@@ -1,4 +1,4 @@
-package game.common;
+package ru.kpfu.itis.game.common;
 
 import java.io.Serializable;
 

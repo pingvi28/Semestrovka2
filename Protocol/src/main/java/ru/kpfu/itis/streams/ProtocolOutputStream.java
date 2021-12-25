@@ -1,4 +1,7 @@
-package ru.kpfu.itis;
+package ru.kpfu.itis.streams;
+
+import ru.kpfu.itis.protocol.Message;
+import ru.kpfu.itis.protocol.Protocol;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,9 +13,9 @@ public class ProtocolOutputStream {
         this.outputStream = outputStream;
     }
 
-    public void writeAction(Action action) throws IOException {
-        byte type = action.getType();
-        byte[] data = action.getData();
+    public void writeAction(Message message) throws IOException {
+        byte type = message.getType();
+        byte[] data = message.getData();
         int length = data.length;
         if (length > Protocol.MAX_ACTION_LENGTH) {
             return;

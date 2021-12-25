@@ -1,15 +1,15 @@
-package ru.kpfu.itis;
+package ru.kpfu.itis.protocol;
 
-public class Action {
+public class Message {
     private byte type;
     private byte[] data;
 
-    public Action(byte type, byte[] data) {
+    public Message(byte type, byte[] data) {
         this.type = type;
         this.data = data;
     }
 
-    public Action(byte type) {
+    public Message(byte type) {
         this.type = type;
     }
 

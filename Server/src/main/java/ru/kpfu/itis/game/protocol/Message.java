@@ -1,4 +1,4 @@
-package game.protocol;
+package ru.kpfu.itis.game.protocol;
 
 import java.io.Serializable;
 

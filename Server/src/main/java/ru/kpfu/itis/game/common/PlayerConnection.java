@@ -1,6 +1,6 @@
-package game.common;
+package ru.kpfu.itis.game.common;
 
-import game.protocol.Message;
+import ru.kpfu.itis.game.protocol.Message;
 
 import java.io.*;
 import java.net.Socket;
@@ -28,7 +28,7 @@ public class PlayerConnection implements Connection{
     private void receiveUserInformation() {
         try {
             ObjectInputStream inputStream = new ObjectInputStream(in);
-            userInformation = (game.common.Information)inputStream.readObject();
+            userInformation = (Information)inputStream.readObject();
         } catch (ClassNotFoundException | IOException e) {
             throw new IllegalStateException("Server connection : receiveInformation throw exception"+e.getMessage());
         }
