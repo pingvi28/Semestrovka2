@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static ru.kpfu.itis.protocol.Protocol.MAX_ACTION_LENGTH;
-import static ru.kpfu.itis.protocol.Protocol.SEND_ERROR;
+import static ru.kpfu.itis.protocol.MessageType.SEND_ERROR;
 
 public class ProtocolInputStream {
     private InputStream inputStream;

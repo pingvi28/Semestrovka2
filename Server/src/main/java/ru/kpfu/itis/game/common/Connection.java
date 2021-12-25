@@ -1,6 +1,7 @@
 package ru.kpfu.itis.game.common;
 
-import ru.kpfu.itis.game.protocol.Message;
+import ru.kpfu.itis.protocol.Message;
+
 import java.io.IOException;
 
 public interface Connection {
