@@ -7,6 +7,5 @@ public class Connection {
 
     public Connection(InetAddress address, int port) {
         this.instanse = this;
-
     }
 }
