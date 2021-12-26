@@ -12,7 +12,7 @@ public class Information implements Serializable {
     public int getClientId(){
         return clientId;
     }
-    public void setClientId(int Id){
+    public void setClientId(int id){
         this.clientId = clientId;
     }
 }

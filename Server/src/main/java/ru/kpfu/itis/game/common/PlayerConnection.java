@@ -1,5 +1,6 @@
 package ru.kpfu.itis.game.common;
 
+import ru.kpfu.itis.game.server.ServerEventListener;
 import ru.kpfu.itis.protocol.MessageGame;
 
 import java.io.*;
@@ -9,32 +10,22 @@ public class PlayerConnection implements Connection{
     private final Socket socket;
     private final InputStream in;
     private final OutputStream out;
-    private Information userInformation;
+    public Information userInformation;
+    private final ServerEventListener eventListener;
 
-    public PlayerConnection(Socket socket, int id){
+    public PlayerConnection(Socket socket, final ServerEventListener eventListener){
         this.socket = socket;
+        this.eventListener = eventListener;
         try {
-            out = socket.getOutputStream();
-            in = socket.getInputStream();
-            receiveUserInformation();
-            userInformation.setClientId(id);
-            sendId(id);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
         }
         catch (IOException e){
             throw new IllegalStateException(e.getMessage());
         }
     }
 
-    private void receiveUserInformation() {
-        try {
-            ObjectInputStream inputStream = new ObjectInputStream(in);
-            userInformation = (Information)inputStream.readObject();
-        } catch (ClassNotFoundException | IOException e) {
-            throw new IllegalStateException("Server connection : receiveInformation throw exception"+e.getMessage());
-        }
-    }
-
-    private void sendId(int id) throws IOException {
+    public void sendId(int id) throws IOException {
         DataOutputStream dataOutputStream= new DataOutputStream(out);
         dataOutputStream.writeInt(id);
     }
@@ -67,5 +58,13 @@ public class PlayerConnection implements Connection{
     @Override
     public boolean isConnected() {
         return !socket.isClosed();
+    }
+
+    public synchronized void disconnect() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            System.out.println("(FP#disconnect) " + e.getMessage() + " : " + e.getCause());
+        }
     }
 }

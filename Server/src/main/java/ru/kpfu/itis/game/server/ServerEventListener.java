@@ -1,5 +1,10 @@
 package ru.kpfu.itis.game.server;
 
+import ru.kpfu.itis.game.common.PlayerConnection;
+
 public interface ServerEventListener {
-  public void init(Server server);
+
+    void onConnectionReady(PlayerConnection connection);
+
+    void onDisconnect(PlayerConnection connection);
 }

@@ -10,12 +10,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class ServerImp implements Server{
+public class ServerImp implements Server, ServerEventListener{
     private final ServerSocket serverSocket;
     protected List<ServerEventListener> listeners;
     protected boolean started;
     protected List<Socket> sockets;
+    protected PlayerConnection[] connection;
+    private Socket[] clientSockets;
+    private int playerNumber = 1;
+    protected int capacity = 2;
 
     public ServerImp() throws IllegalStateException{
         try {
@@ -31,11 +36,20 @@ public class ServerImp implements Server{
     public void start(){
         System.out.println("Server started");
         started = true;
-        while (true){
+        clientSockets = new Socket[2];
+        while (playerNumber != 3){
             try {
-                System.out.println("Ожидаю");
-                Socket socket = serverSocket.accept();
-                System.out.println("Соединил");
+                System.out.println("Waite" + playerNumber);
+
+                for (int i = 0; i < clientSockets.length ; i++) {
+                    Socket socket = serverSocket.accept();
+                    clientSockets[i] = socket;
+                    //connection[i] = new PlayerConnection(socket, this);
+                    //connection[i].userInformation.setClientId(i);
+                    //connection[i].sendId(i);
+                    System.out.println("Connected player " + i);
+                }
+
             } catch (IOException e) {
                 throw new IllegalStateException(e.getMessage());
             }
@@ -47,7 +61,6 @@ public class ServerImp implements Server{
         if(started){
             throw new ServerException("Server has been started already.");
         }
-        listener.init(this);
         this.listeners.add(listener);
     }
 
@@ -68,5 +81,15 @@ public class ServerImp implements Server{
     public void removeConnection(int id, Connection connection){
         if(connection == null)return;
         System.out.println("Пользователь ID:" + connection.getInformation().getClientId() +  "отсоединился");
+    }
+
+    @Override
+    public void onConnectionReady(PlayerConnection connection) {
+
+    }
+
+    @Override
+    public void onDisconnect(PlayerConnection connection) {
+
     }
 }

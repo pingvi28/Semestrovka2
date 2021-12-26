@@ -18,7 +18,7 @@ public interface Message {
 
     MessageGame createMessage(MessageType messageType);
 
-    MessageGame readMessage(InputStream inputStream) throws IOException ;
+    //static MessageGame readMessage(InputStream inputStream) throws IOException ;
 
     MessageType getMessageType();
 }

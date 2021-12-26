@@ -11,4 +11,5 @@ public interface Connection {
     void close();
     int getId();
     boolean isConnected();
+    void disconnect();
 }
