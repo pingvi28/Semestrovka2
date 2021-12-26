@@ -1,6 +1,6 @@
 package ru.kpfu.itis.streams;
 
-import ru.kpfu.itis.protocol.Message;
+import ru.kpfu.itis.protocol.MessageGame;
 import ru.kpfu.itis.protocol.Protocol;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ public class ProtocolOutputStream {
         this.outputStream = outputStream;
     }
 
-    public void writeAction(Message message) throws IOException {
+    public void writeAction(MessageGame message) throws IOException {
         byte type = message.getType();
         byte[] data = message.getData();
         int length = data.length;

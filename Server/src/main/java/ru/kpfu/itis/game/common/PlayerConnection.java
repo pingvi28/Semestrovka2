@@ -1,6 +1,6 @@
 package ru.kpfu.itis.game.common;
 
-import ru.kpfu.itis.protocol.Message;
+import ru.kpfu.itis.protocol.MessageGame;
 
 import java.io.*;
 import java.net.Socket;
@@ -45,7 +45,7 @@ public class PlayerConnection implements Connection{
     }
 
     @Override
-    public void send(Message message) throws IOException {
+    public void send(MessageGame message) throws IOException {
 
     }
 

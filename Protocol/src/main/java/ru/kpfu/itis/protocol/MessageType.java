@@ -1,11 +1,34 @@
 package ru.kpfu.itis.protocol;
 
-public class MessageType {
-    public static final byte SEND_ERROR = 0;
-    public static final byte ADD_PLAYER = 1;
-    public static final byte GAME_STARTED = 2;
-    public static final byte OPENED_FIRST_CARD = 3;
-    public static final byte OPENED_SECOND_CARD = 4;
-    public static final byte SUCCESS = 5;
-    public static final byte FAIL = 6;
+import java.util.HashMap;
+import java.util.Map;
+
+public enum  MessageType {
+    SEND_ERROR(0),
+    ADD_PLAYER( 1),
+    GAME_STARTED (2),
+    OPENED_FIRST_CARD (3),
+    OPENED_SECOND_CARD(4),
+    SUCCESS(5),
+    FAIL(6);
+
+    private int b;
+    private static final Map<Byte, MessageType> TYPE_MAP;
+
+    MessageType(int b) { this.b = b; }
+
+    public byte getByte() {
+        return (byte) b;
+    }
+
+    static {
+        TYPE_MAP = new HashMap<>(MessageType.values().length);
+        for (MessageType mt : MessageType.values()) {
+            TYPE_MAP.put(mt.getByte(), mt);
+        }
+    }
+
+    public static MessageType getMessageType(byte value) {
+        return TYPE_MAP.get(value);
+    }
 }

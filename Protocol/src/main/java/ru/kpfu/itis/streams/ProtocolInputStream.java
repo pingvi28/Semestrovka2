@@ -1,6 +1,6 @@
 package ru.kpfu.itis.streams;
 
-import ru.kpfu.itis.protocol.Message;
+import ru.kpfu.itis.protocol.MessageGame;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +15,7 @@ public class ProtocolInputStream {
         this.inputStream = inputStream;
     }
 
-    public Message readAction() throws IOException {
+    public MessageGame readAction() throws IOException {
         int type = -1;
         int length = 0;
         if ((type = inputStream.read()) == -1) {
@@ -23,13 +23,13 @@ public class ProtocolInputStream {
         }
         length = (inputStream.read() << 8) + inputStream.read();
         if (length > MAX_ACTION_LENGTH) {
-            Message incorrectMessage = new Message(SEND_ERROR, new byte[0]);
+            MessageGame incorrectMessage = new MessageGame(SEND_ERROR.getByte(), new byte[0]);
             inputStream.skip(length);
             return incorrectMessage;
         }
         byte[] buffer = new byte[length];
         inputStream.read(buffer);
-        Message message = new Message((byte) type, buffer);
+        MessageGame message = new MessageGame((byte) type, buffer);
         return message;
     }
 

@@ -1,31 +1,24 @@
 package ru.kpfu.itis.protocol;
 
-public class Message {
-    private byte type;
-    private byte[] data;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 
-    public Message(byte type, byte[] data) {
-        this.type = type;
-        this.data = data;
-    }
+public interface Message {
+    byte type = 0;
+    byte[] data = new byte[0];
 
-    public Message(byte type) {
-        this.type = type;
-    }
+    byte getType();
+    void setType(byte type);
 
-    public byte getType() {
-        return type;
-    }
+    byte[] getData();
+    void setData(byte[] data);
 
-    public void setType(byte type) {
-        this.type = type;
-    }
+    byte[] getTypeBytes(MessageType type);
 
-    public byte[] getData() {
-        return data;
-    }
+    MessageGame createMessage(MessageType messageType);
 
-    public void setData(byte[] data) {
-        this.data = data;
-    }
+    MessageGame readMessage(InputStream inputStream) throws IOException ;
+
+    MessageType getMessageType();
 }

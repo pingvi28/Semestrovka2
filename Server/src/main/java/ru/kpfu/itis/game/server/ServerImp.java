@@ -2,7 +2,7 @@ package ru.kpfu.itis.game.server;
 
 import ru.kpfu.itis.game.common.*;
 import ru.kpfu.itis.game.server.exeption.ServerException;
-import ru.kpfu.itis.protocol.Message;
+import ru.kpfu.itis.protocol.MessageGame;
 import ru.kpfu.itis.protocol.Properties;
 
 import java.io.IOException;
@@ -52,7 +52,7 @@ public class ServerImp implements Server{
     }
 
     @Override
-    public void sendMessage(int connectionId, Message message) throws ServerException{
+    public void sendMessage(int connectionId, MessageGame message) throws ServerException{
         if(!started){
             throw new ServerException("Server hasn't been started yet.");
         }
