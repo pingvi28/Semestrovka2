@@ -9,7 +9,6 @@ public interface Connection {
 
     void send(MessageGame message) throws IOException;
     void close();
-    int getId();
     boolean isConnected();
     void disconnect();
 }

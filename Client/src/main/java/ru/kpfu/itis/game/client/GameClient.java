@@ -24,5 +24,4 @@ public class GameClient implements Client{
     public Message sendMessage(Message message) throws ClientException {
         return null;
     }
-
 }

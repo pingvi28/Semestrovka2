@@ -9,24 +9,28 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ServerImp implements Server, ServerEventListener{
     private final ServerSocket serverSocket;
+    public static Properties properties;
     protected List<ServerEventListener> listeners;
     protected boolean started;
-    protected List<Socket> sockets;
     protected PlayerConnection[] connection;
-    private Socket[] clientSockets;
-    private int playerNumber = 1;
+    private Map<Socket, PlayerConnection> connectionMap = new HashMap<Socket, PlayerConnection>() {
+    };
     protected int capacity = 2;
+    boolean hasPlace;
 
     public ServerImp() throws IllegalStateException{
         try {
             serverSocket = new ServerSocket(Properties.port);
+            properties = new Properties();
             this.listeners = new ArrayList<>();
             this.started = false;
+            this.hasPlace = true;
         }
         catch (IOException e){
             throw new IllegalStateException(e.getMessage());
@@ -36,20 +40,21 @@ public class ServerImp implements Server, ServerEventListener{
     public void start(){
         System.out.println("Server started");
         started = true;
-        clientSockets = new Socket[2];
-        while (playerNumber != 3){
+        while (true){
             try {
-                System.out.println("Waite" + playerNumber);
-
-                for (int i = 0; i < clientSockets.length ; i++) {
-                    Socket socket = serverSocket.accept();
-                    clientSockets[i] = socket;
-                    //connection[i] = new PlayerConnection(socket, this);
-                    //connection[i].userInformation.setClientId(i);
-                    //connection[i].sendId(i);
-                    System.out.println("Connected player " + i);
+                if(hasPlace){
+                    for (int i = 1; i <= capacity ; i++) {
+                        Socket socket = serverSocket.accept();
+                        connectionMap.put(socket, new PlayerConnection(socket,i,this));
+                        //connection[i] = new PlayerConnection(socket, this);
+                        //connection[i].userInformation.setClientId(i);
+                        //connection[i].sendId(i);
+                        System.out.println("Connected player " + i);
+                        if ( i == (capacity - 1)){
+                            hasPlace = false;
+                        }
+                    }
                 }
-
             } catch (IOException e) {
                 throw new IllegalStateException(e.getMessage());
             }
@@ -70,7 +75,8 @@ public class ServerImp implements Server, ServerEventListener{
             throw new ServerException("Server hasn't been started yet.");
         }
         try{
-            Socket socket = sockets.get(connectionId);
+            //Socket socket = sockets[connectionId];
+            Socket socket = new Socket();
             socket.getOutputStream().write(message.getData());
             socket.getOutputStream().flush();
         } catch (IOException ex) {
