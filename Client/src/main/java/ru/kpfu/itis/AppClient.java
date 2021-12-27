@@ -1,15 +1,11 @@
 package ru.kpfu.itis;
 
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import ru.kpfu.itis.game.AppServer;
-import ru.kpfu.itis.game.client.ClientException;
+import ru.kpfu.itis.game.exception.ClientException;
 import ru.kpfu.itis.game.client.GameClient;
-import ru.kpfu.itis.game.common.Information;
 import ru.kpfu.itis.game.common.PlayerConnection;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -17,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 
 import javafx.geometry.Orientation;
-import ru.kpfu.itis.game.server.ServerImp;
 import ru.kpfu.itis.protocol.Properties;
 
 import java.net.Socket;

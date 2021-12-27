@@ -3,6 +3,7 @@ package ru.kpfu.itis.protocol;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class MessageGame implements Message{
     private byte type;
@@ -60,13 +61,36 @@ public class MessageGame implements Message{
         return new MessageGame(userAction);
     }
 
-    public MessageGame readMessage(InputStream inputStream) throws IOException {
-        byte[] type = new byte[4];
-
-        inputStream.read(type, 0, 4);
-        byte typeByte = ByteBuffer.wrap(type, 0, 4).get();
-
-        return new MessageGame(MessageType.getMessageType(typeByte));
+    public static MessageGame readMessage(InputStream in) throws IllegalArgumentException {
+        byte[] buffer = new byte[Protocol.MAX_ACTION_LENGTH];
+        try {
+            in.read(buffer, 0, Protocol.START_BYTES.length);//Block Thread here
+            if (!Arrays.equals(
+                    Arrays.copyOfRange(buffer, 0, Protocol.START_BYTES.length),
+                    Protocol.START_BYTES)) {
+                throw new IllegalArgumentException(
+                        "Message first bytes must be " + Arrays.toString(Protocol.START_BYTES)
+                );
+            }
+            // Offset is 0 because this thread is not markable
+            in.read(buffer, 0, 4);//Block Thread here
+            int messageType = ByteBuffer.wrap(buffer, 0, 4).getInt();
+//            if (messageType != TYPE1 && messageType != TYPE2) {
+//                throw new IllegalArgumentException("Wrong message type: " + messageType + ".");
+//            }
+            in.read(buffer, 0, 4);//Block Thread here
+            int messageLength = ByteBuffer.wrap(buffer, 0, 4).getInt();
+            if (messageLength > Protocol.MAX_ACTION_LENGTH) {
+                throw new IllegalArgumentException(
+                        "Message can't be " + messageLength
+                                + " bytes length. Maximum is " + Protocol.MAX_ACTION_LENGTH + "."
+                );
+            }
+            in.read(buffer, 0, messageLength);//Can end before messageLength
+            return new MessageGame((byte) messageType, Arrays.copyOfRange(buffer, 0, messageLength));
+        } catch (IOException ex) {
+            throw new IllegalArgumentException("Can't read message", ex);
+        }
     }
 
     public MessageType getMessageType(){

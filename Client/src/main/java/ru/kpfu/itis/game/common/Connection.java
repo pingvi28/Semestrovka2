@@ -1,4 +1,4 @@
-package ru.kpfu.itis.game.client;
+package ru.kpfu.itis.game.common;
 
 import java.net.InetAddress;
 
