@@ -43,7 +43,7 @@ public class AppClient extends Application  {
         textField.setPrefColumnCount(11);
         Button btn = new Button("Click");
         //
-        btn.setOnAction(event -> AppServer.server.properties.setSizeBoard(Integer.valueOf(textField.getText())));
+        btn.setOnAction(event -> Properties.setSizeBoard(Integer.parseInt(textField.getText())));
         FlowPane root = new FlowPane(Orientation.VERTICAL, 10, 10, textField, btn, lbl);
         root.setAlignment(Pos.CENTER);
         Scene scene = new Scene(root, 400, 200);

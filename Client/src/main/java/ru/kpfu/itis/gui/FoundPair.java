@@ -1,12 +1,16 @@
 package ru.kpfu.itis.gui;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -21,7 +25,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class FoundPair extends Application {
-    private static final String NAME = "Хуета";
+    private static final String NAME = "Found a pair";
     // тута задается длина квадрата с ячейками
     private final int size = 7;
     private final Figure3T[][] cells = new Figure3T[size][size];
@@ -92,6 +96,26 @@ public class FoundPair extends Application {
         return panel;
     }
 
+    private MenuBar buildMenuBar(){
+        MenuBar menuBar = new MenuBar();
+
+        Menu fileMenu = new Menu("File");
+
+        MenuItem newItem = new MenuItem("New");
+//        newItem.setOnAction(
+//                event -> border.setCenter(this.buildGrid())
+//
+//        );
+        MenuItem exitItem = new MenuItem("Exit");
+        exitItem.setOnAction(event -> System.exit(0));
+
+        fileMenu.getItems().addAll(newItem, exitItem);
+
+        menuBar.getMenus().addAll(fileMenu);
+
+        return menuBar;
+    }
+
     private void getParamScreen(){
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         this.height = screenBounds.getHeight();
@@ -114,8 +138,9 @@ public class FoundPair extends Application {
         );
 
         control.getChildren().addAll(start);
+        border.setTop(buildMenuBar());
         border.setBottom(control);
-        border.setCenter(this.buildGrid());
+        //border.setCenter(this.buildGrid());
         stage.setScene(new Scene(border,(wight * 3 ) / 4, (height * 3) / 4));
         stage.setMinHeight((height * 3) / 4);
         stage.setMinWidth((wight * 3 ) / 4);
