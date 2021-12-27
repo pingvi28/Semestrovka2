@@ -18,9 +18,6 @@ public class Properties {
         }else System.out.println("Другой игрок уже ввел значение");
     }
 
-
-
-
     public static void setPort(int port) {
         Properties.port = port;
     }

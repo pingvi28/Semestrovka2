@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ru.kpfu.itis.game.AppServer;
 import ru.kpfu.itis.game.client.ClientException;
 import ru.kpfu.itis.game.client.GameClient;
 import ru.kpfu.itis.game.common.Information;
@@ -29,18 +30,20 @@ public class AppClient extends Application  {
     protected Socket socket;
 
     public static void main(String[] args) throws ClientException {
-        client = new GameClient();
-        client.connect();
         launch();
     }
 
     public void start(Stage primaryStage) throws Exception {
+        client = new GameClient();
+        client.connect();
+
         Label lbl = new Label();
         lbl.setText("Привет игрок, введи размер поля ( от 1 до 7)");
         TextField textField = new TextField();
         textField.setPrefColumnCount(11);
         Button btn = new Button("Click");
-        btn.setOnAction(event -> ServerImp.properties.setSizeBoard(Integer.valueOf(textField.getText())));
+        //
+        btn.setOnAction(event -> AppServer.server.properties.setSizeBoard(Integer.valueOf(textField.getText())));
         FlowPane root = new FlowPane(Orientation.VERTICAL, 10, 10, textField, btn, lbl);
         root.setAlignment(Pos.CENTER);
         Scene scene = new Scene(root, 400, 200);
